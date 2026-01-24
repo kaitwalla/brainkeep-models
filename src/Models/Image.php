@@ -66,9 +66,15 @@ class Image extends Model
             return $disk->url($this->filename);
         }
 
-        return $disk->temporaryUrl(
-            $this->filename,
-            now()->addMinutes(self::SIGNED_URL_EXPIRY_MINUTES)
-        );
+        // Return signed URL for private images if supported, otherwise fall back to regular URL
+        try {
+            return $disk->temporaryUrl(
+                $this->filename,
+                now()->addMinutes(self::SIGNED_URL_EXPIRY_MINUTES)
+            );
+        } catch (\RuntimeException) {
+            // Driver doesn't support temporary URLs (e.g., local driver)
+            return $disk->url($this->filename);
+        }
     }
 }
