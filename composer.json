@@ -1,0 +1,24 @@
+{
+    "name": "brainkeep/models",
+    "description": "Shared Eloquent models for BrainKeep applications",
+    "type": "library",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "Brainkeep\\Models\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.2",
+        "illuminate/database": "^11.0|^12.0",
+        "illuminate/support": "^11.0|^12.0"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Brainkeep\\Models\\BrainkeepModelsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "stable"
+}
