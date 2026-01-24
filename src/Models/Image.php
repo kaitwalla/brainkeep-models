@@ -12,6 +12,11 @@ class Image extends Model
 {
     use HasFactory, HasUuids;
 
+    /**
+     * Signed URL expiry duration for private images (7 days in minutes).
+     */
+    private const SIGNED_URL_EXPIRY_MINUTES = 60 * 24 * 7;
+
     public $incrementing = false;
 
     protected $keyType = 'string';
@@ -27,9 +32,21 @@ class Image extends Model
         'width',
         'height',
         'position',
+        'is_public',
+    ];
+
+    protected $attributes = [
+        'is_public' => false,
     ];
 
     protected $appends = ['url'];
+
+    protected function casts(): array
+    {
+        return [
+            'is_public' => 'boolean',
+        ];
+    }
 
     public function user(): BelongsTo
     {
@@ -43,6 +60,15 @@ class Image extends Model
 
     public function getUrlAttribute(): string
     {
-        return Storage::disk(config('filesystems.default'))->url($this->filename);
+        $disk = Storage::disk(config('filesystems.default'));
+
+        if ($this->is_public) {
+            return $disk->url($this->filename);
+        }
+
+        return $disk->temporaryUrl(
+            $this->filename,
+            now()->addMinutes(self::SIGNED_URL_EXPIRY_MINUTES)
+        );
     }
 }
