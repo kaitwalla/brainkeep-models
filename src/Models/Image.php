@@ -66,7 +66,7 @@ class Image extends Model
             return $disk->url($this->filename);
         }
 
-        // Return signed URL for private images if supported, otherwise fall back to regular URL
+        // Return signed URL for private images if driver supports it (S3, etc.)
         try {
             return $disk->temporaryUrl(
                 $this->filename,
@@ -74,7 +74,8 @@ class Image extends Model
             );
         } catch (\RuntimeException) {
             // Driver doesn't support temporary URLs (e.g., local driver)
-            return $disk->url($this->filename);
+            // Return API endpoint URL for authenticated access
+            return url("/api/images/{$this->id}");
         }
     }
 }
