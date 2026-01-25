@@ -16,7 +16,7 @@ class Note extends Model
     /**
      * Available note types.
      */
-    public const TYPES = ['note', 'photo', 'quote', 'video', 'audio', 'link', 'question', 'book'];
+    public const TYPES = ['note', 'photo', 'quote', 'video', 'audio', 'link', 'question', 'book', 'media'];
 
     public $incrementing = false;
 
@@ -52,6 +52,10 @@ class Note extends Model
         'author',
         'rating',
         'synopsis',
+        // Media diet fields
+        'media_diet_type',
+        'media_url',
+        'media_metadata',
         // Import tracking
         'statamic_id',
     ];
@@ -69,6 +73,7 @@ class Note extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'rating' => 'integer',
+            'media_metadata' => 'array',
         ];
     }
 
@@ -97,5 +102,15 @@ class Note extends Model
     public function images(): HasMany
     {
         return $this->hasMany(Image::class)->orderBy('position');
+    }
+
+    public function videos(): HasMany
+    {
+        return $this->hasMany(Video::class)->orderBy('position');
+    }
+
+    public function audios(): HasMany
+    {
+        return $this->hasMany(Audio::class)->orderBy('position');
     }
 }
