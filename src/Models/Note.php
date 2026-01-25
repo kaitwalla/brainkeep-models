@@ -64,6 +64,8 @@ class Note extends Model
         'affiliate_amazon',
         'affiliate_bookshop',
         'recommendation',
+        'opinion',
+        'commentary',
         'google_books_id',
         // Media diet fields
         'media_diet_type',
@@ -88,6 +90,7 @@ class Note extends Model
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
             'rating' => 'integer',
+            'opinion' => 'integer',
             'media_metadata' => 'array',
             'release_date' => 'date',
             'release_notified' => 'boolean',
