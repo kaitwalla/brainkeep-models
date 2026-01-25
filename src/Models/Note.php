@@ -19,6 +19,21 @@ class Note extends Model
     public const TYPES = ['note', 'photo', 'quote', 'video', 'audio', 'link', 'question', 'book', 'media'];
 
     /**
+     * Boot the model.
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (Note $note) {
+            // Default published_at to current time if not set
+            if ($note->published_at === null) {
+                $note->published_at = now();
+            }
+        });
+    }
+
+    /**
      * Available book statuses.
      */
     public const BOOK_STATUSES = ['to-get', 'to-read', 'reading', 'read', 'reviewed'];
