@@ -37,6 +37,7 @@ class Note extends Model
         'snark',
         'type',
         'is_public',
+        'in_notes_feed',
         'published_at',
         // Quote fields
         'cite',
@@ -74,6 +75,7 @@ class Note extends Model
 
     protected $attributes = [
         'is_public' => false,
+        'in_notes_feed' => true,
         'type' => 'note',
     ];
 
@@ -81,6 +83,7 @@ class Note extends Model
     {
         return [
             'is_public' => 'boolean',
+            'in_notes_feed' => 'boolean',
             'published_at' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
