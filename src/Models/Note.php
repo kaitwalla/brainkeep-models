@@ -18,6 +18,11 @@ class Note extends Model
      */
     public const TYPES = ['note', 'photo', 'quote', 'video', 'audio', 'link', 'question', 'book', 'media'];
 
+    /**
+     * Available book statuses.
+     */
+    public const BOOK_STATUSES = ['to-get', 'to-read', 'reading', 'read', 'reviewed'];
+
     public $incrementing = false;
 
     protected $keyType = 'string';
@@ -52,6 +57,13 @@ class Note extends Model
         'author',
         'rating',
         'synopsis',
+        'book_status',
+        'release_date',
+        'release_notified',
+        'affiliate_amazon',
+        'affiliate_bookshop',
+        'recommendation',
+        'google_books_id',
         // Media diet fields
         'media_diet_type',
         'media_url',
@@ -74,6 +86,8 @@ class Note extends Model
             'updated_at' => 'datetime',
             'rating' => 'integer',
             'media_metadata' => 'array',
+            'release_date' => 'date',
+            'release_notified' => 'boolean',
         ];
     }
 
