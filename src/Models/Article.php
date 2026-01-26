@@ -42,6 +42,7 @@ class Article extends Model
         'word_count',
         'estimated_reading_time',
         'lead_image_id',
+        'is_public',
         'is_read',
         'is_favorite',
         'is_archived',
@@ -56,6 +57,7 @@ class Article extends Model
     ];
 
     protected $attributes = [
+        'is_public' => false,
         'is_read' => false,
         'is_favorite' => false,
         'is_archived' => false,
@@ -67,6 +69,7 @@ class Article extends Model
     protected function casts(): array
     {
         return [
+            'is_public' => 'boolean',
             'is_read' => 'boolean',
             'is_favorite' => 'boolean',
             'is_archived' => 'boolean',

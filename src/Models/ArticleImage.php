@@ -26,6 +26,11 @@ class ArticleImage extends Model
         'original_url',
         'filename',
         'position',
+        'is_public',
+    ];
+
+    protected $attributes = [
+        'is_public' => false,
     ];
 
     protected $appends = ['url'];
@@ -34,6 +39,7 @@ class ArticleImage extends Model
     {
         return [
             'position' => 'integer',
+            'is_public' => 'boolean',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
@@ -55,7 +61,12 @@ class ArticleImage extends Model
             return url('/storage/' . $this->filename);
         }
 
-        // Article images are always private - use signed URLs for cloud storage
+        // Public images get direct storage URL
+        if ($this->is_public) {
+            return $disk->url($this->filename);
+        }
+
+        // Private images use signed URLs for cloud storage
         try {
             return $disk->temporaryUrl(
                 $this->filename,
