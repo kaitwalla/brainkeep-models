@@ -25,6 +25,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|null $last_fetched_at
  * @property \Illuminate\Support\Carbon|null $next_fetch_at
  * @property int $fetch_interval_minutes
+ * @property bool $fetch_full_content
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  *
@@ -60,12 +61,14 @@ class RssFeed extends Model
         'last_fetched_at',
         'next_fetch_at',
         'fetch_interval_minutes',
+        'fetch_full_content',
     ];
 
     protected $attributes = [
         'fetch_status' => 'pending',
         'error_count' => 0,
         'fetch_interval_minutes' => 30,
+        'fetch_full_content' => false,
     ];
 
     protected function casts(): array
@@ -73,6 +76,7 @@ class RssFeed extends Model
         return [
             'error_count' => 'integer',
             'fetch_interval_minutes' => 'integer',
+            'fetch_full_content' => 'boolean',
             'last_fetched_at' => 'datetime',
             'next_fetch_at' => 'datetime',
             'created_at' => 'datetime',

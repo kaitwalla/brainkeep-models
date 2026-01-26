@@ -17,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $title
  * @property string|null $author
  * @property string|null $content
+ * @property string|null $full_content
+ * @property string $full_content_status
  * @property string|null $summary
  * @property string $status
  * @property bool $is_starred
@@ -36,6 +38,11 @@ class RssEntry extends Model
      */
     public const STATUSES = ['unread', 'read'];
 
+    /**
+     * Available full content fetch statuses.
+     */
+    public const FULL_CONTENT_STATUSES = ['pending', 'fetching', 'completed', 'failed', 'skipped'];
+
     public $incrementing = false;
 
     protected $keyType = 'string';
@@ -51,6 +58,8 @@ class RssEntry extends Model
         'title',
         'author',
         'content',
+        'full_content',
+        'full_content_status',
         'summary',
         'status',
         'is_starred',
@@ -61,6 +70,7 @@ class RssEntry extends Model
     protected $attributes = [
         'status' => 'unread',
         'is_starred' => false,
+        'full_content_status' => 'pending',
     ];
 
     protected function casts(): array
