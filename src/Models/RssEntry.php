@@ -70,7 +70,7 @@ class RssEntry extends Model
     protected $attributes = [
         'status' => 'unread',
         'is_starred' => false,
-        'full_content_status' => 'pending',
+        'full_content_status' => 'skipped',
     ];
 
     protected function casts(): array
