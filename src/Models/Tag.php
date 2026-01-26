@@ -40,4 +40,11 @@ class Tag extends Model
             ->using(NoteTag::class)
             ->withTimestamps();
     }
+
+    public function articles(): BelongsToMany
+    {
+        return $this->belongsToMany(Article::class, 'article_tag')
+            ->using(ArticleTag::class)
+            ->withTimestamps();
+    }
 }
