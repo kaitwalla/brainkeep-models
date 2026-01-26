@@ -61,6 +61,13 @@ class Image extends Model
     public function getUrlAttribute(): string
     {
         $disk = Storage::disk(config('filesystems.default'));
+        $diskDriver = config('filesystems.disks.' . config('filesystems.default') . '.driver');
+
+        // For local filesystem, always use direct storage URL
+        // (auth is handled at app level, not URL level)
+        if ($diskDriver === 'local') {
+            return url('/storage/' . $this->filename);
+        }
 
         if ($this->is_public) {
             return $disk->url($this->filename);
@@ -73,7 +80,7 @@ class Image extends Model
                 now()->addMinutes(self::SIGNED_URL_EXPIRY_MINUTES)
             );
         } catch (\RuntimeException) {
-            // Driver doesn't support temporary URLs (e.g., local driver)
+            // Driver doesn't support temporary URLs
             // Return API endpoint URL for authenticated access
             return url("/api/images/{$this->id}");
         }

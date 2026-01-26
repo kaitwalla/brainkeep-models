@@ -47,15 +47,22 @@ class ArticleImage extends Model
     public function getUrlAttribute(): string
     {
         $disk = Storage::disk(config('filesystems.default'));
+        $diskDriver = config('filesystems.disks.' . config('filesystems.default') . '.driver');
 
-        // Article images are always private
+        // For local filesystem, use direct storage URL
+        // (local dev only - prod uses S3 with signed URLs)
+        if ($diskDriver === 'local') {
+            return url('/storage/' . $this->filename);
+        }
+
+        // Article images are always private - use signed URLs for cloud storage
         try {
             return $disk->temporaryUrl(
                 $this->filename,
                 now()->addMinutes(self::SIGNED_URL_EXPIRY_MINUTES)
             );
         } catch (\RuntimeException) {
-            // Driver doesn't support temporary URLs (e.g., local driver)
+            // Driver doesn't support temporary URLs
             // Return API endpoint URL for authenticated access
             return url("/api/article-images/{$this->id}");
         }
