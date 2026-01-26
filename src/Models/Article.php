@@ -44,6 +44,7 @@ class Article extends Model
         'lead_image_id',
         'is_read',
         'is_favorite',
+        'is_archived',
         'reading_progress',
         'scroll_position',
         'extraction_status',
@@ -51,11 +52,13 @@ class Article extends Model
         'published_at',
         'saved_at',
         'read_at',
+        'archived_at',
     ];
 
     protected $attributes = [
         'is_read' => false,
         'is_favorite' => false,
+        'is_archived' => false,
         'reading_progress' => 0.0,
         'scroll_position' => 0,
         'extraction_status' => self::STATUS_PENDING,
@@ -66,6 +69,7 @@ class Article extends Model
         return [
             'is_read' => 'boolean',
             'is_favorite' => 'boolean',
+            'is_archived' => 'boolean',
             'reading_progress' => 'float',
             'scroll_position' => 'integer',
             'word_count' => 'integer',
@@ -73,6 +77,7 @@ class Article extends Model
             'published_at' => 'datetime',
             'saved_at' => 'datetime',
             'read_at' => 'datetime',
+            'archived_at' => 'datetime',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
