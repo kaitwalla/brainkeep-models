@@ -13,7 +13,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $feed_id
  * @property string $guid
  * @property string $guid_hash
- * @property string $url
+ * @property string|null $url
+ * @property string $url_source
  * @property string $title
  * @property string|null $author
  * @property string|null $content
@@ -21,11 +22,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string $full_content_status
  * @property string|null $summary
  * @property string $status
- * @property bool $is_starred
  * @property \Illuminate\Support\Carbon|null $published_at
  * @property \Illuminate\Support\Carbon|null $read_at
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read RssFeed|null $feed
  *
  * @mixin \Illuminate\Database\Eloquent\Builder<RssEntry>
  */
@@ -39,9 +40,14 @@ class RssEntry extends Model
     public const STATUSES = ['unread', 'read'];
 
     /**
+     * Available URL source types.
+     */
+    public const URL_SOURCES = ['extracted', 'generated', 'manual'];
+
+    /**
      * Available full content fetch statuses.
      */
-    public const FULL_CONTENT_STATUSES = ['pending', 'fetching', 'completed', 'failed', 'skipped'];
+    public const FULL_CONTENT_STATUSES = ['pending', 'pending_local', 'fetching', 'completed', 'failed', 'skipped'];
 
     public $incrementing = false;
 
@@ -55,6 +61,7 @@ class RssEntry extends Model
         'guid',
         'guid_hash',
         'url',
+        'url_source',
         'title',
         'author',
         'content',
@@ -62,21 +69,19 @@ class RssEntry extends Model
         'full_content_status',
         'summary',
         'status',
-        'is_starred',
         'published_at',
         'read_at',
     ];
 
     protected $attributes = [
         'status' => 'unread',
-        'is_starred' => false,
         'full_content_status' => 'skipped',
+        'url_source' => 'extracted',
     ];
 
     protected function casts(): array
     {
         return [
-            'is_starred' => 'boolean',
             'published_at' => 'datetime',
             'read_at' => 'datetime',
             'created_at' => 'datetime',

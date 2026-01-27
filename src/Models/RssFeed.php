@@ -13,7 +13,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string $id
  * @property string $user_id
  * @property string|null $category_id
- * @property string $feed_url
+ * @property string $feed_type
+ * @property string|null $feed_url
  * @property string|null $site_url
  * @property string $title
  * @property string|null $description
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property \Illuminate\Support\Carbon|null $next_fetch_at
  * @property int $fetch_interval_minutes
  * @property bool $fetch_full_content
+ * @property string $content_fetcher
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  *
@@ -34,6 +36,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 class RssFeed extends Model
 {
     use HasFactory, HasUuids;
+
+    /**
+     * Available feed types.
+     */
+    public const FEED_TYPES = ['rss', 'newsletter'];
 
     /**
      * Available fetch statuses.
@@ -49,6 +56,7 @@ class RssFeed extends Model
     protected $fillable = [
         'user_id',
         'category_id',
+        'feed_type',
         'feed_url',
         'site_url',
         'title',
@@ -65,6 +73,7 @@ class RssFeed extends Model
     ];
 
     protected $attributes = [
+        'feed_type' => 'rss',
         'fetch_status' => 'pending',
         'error_count' => 0,
         'fetch_interval_minutes' => 30,
