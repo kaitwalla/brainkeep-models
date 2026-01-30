@@ -54,6 +54,7 @@ class Article extends Model
         'saved_at',
         'read_at',
         'archived_at',
+        'media_diet_entry_id',
     ];
 
     protected $attributes = [
