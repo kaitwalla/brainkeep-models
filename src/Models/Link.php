@@ -57,8 +57,6 @@ class Link extends Model
             'is_favorite' => 'boolean',
             'is_archived' => 'boolean',
             'archived_at' => 'datetime',
-            'created_at' => 'datetime',
-            'updated_at' => 'datetime',
         ];
     }
 
