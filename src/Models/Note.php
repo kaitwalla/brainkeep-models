@@ -132,7 +132,7 @@ class Note extends Model
 
     public function replies(): HasMany
     {
-        return $this->hasMany(Note::class, 'parent_id');
+        return $this->hasMany(Note::class, 'parent_id')->orderBy('created_at');
     }
 
     public function tags(): BelongsToMany
