@@ -45,6 +45,7 @@ class Note extends Model
 
     protected $fillable = [
         'user_id',
+        'stream_id',
         'parent_id',
         'title',
         'slug',
@@ -122,6 +123,11 @@ class Note extends Model
     public function parent(): BelongsTo
     {
         return $this->belongsTo(Note::class, 'parent_id');
+    }
+
+    public function stream(): BelongsTo
+    {
+        return $this->belongsTo(Stream::class);
     }
 
     public function replies(): HasMany
