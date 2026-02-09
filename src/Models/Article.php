@@ -20,6 +20,7 @@ class Article extends Model
     public const STATUS_PROCESSING = 'processing';
     public const STATUS_COMPLETED = 'completed';
     public const STATUS_FAILED = 'failed';
+    public const STATUS_PENDING_EXTRACTOR = 'pending_extractor';
 
     /**
      * Average reading speed in words per minute.
