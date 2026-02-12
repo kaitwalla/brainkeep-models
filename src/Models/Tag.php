@@ -19,11 +19,13 @@ class Tag extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'is_system',
     ];
 
     protected function casts(): array
     {
         return [
+            'is_system' => 'boolean',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
