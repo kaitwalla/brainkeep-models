@@ -17,7 +17,7 @@ class Note extends Model
     /**
      * Available note types.
      */
-    public const TYPES = ['note', 'photo', 'quote', 'video', 'audio', 'link', 'question', 'book', 'media'];
+    public const TYPES = ['note', 'photo', 'quote', 'video', 'audio', 'link', 'question', 'book', 'media', 'highlight'];
 
     /**
      * Boot the model.
@@ -46,6 +46,8 @@ class Note extends Model
     protected $fillable = [
         'user_id',
         'stream_id',
+        'library_book_id',
+        'article_id',
         'parent_id',
         'title',
         'slug',
@@ -58,6 +60,7 @@ class Note extends Model
         'published_at',
         // Quote fields
         'cite',
+        'highlight_anchor',
         'source_url',
         // Video fields
         'video_url',
@@ -110,6 +113,7 @@ class Note extends Model
             'rating' => 'integer',
             'opinion' => 'integer',
             'media_metadata' => 'array',
+            'highlight_anchor' => 'array',
             'release_date' => 'date',
             'release_notified' => 'boolean',
         ];
@@ -128,6 +132,16 @@ class Note extends Model
     public function stream(): BelongsTo
     {
         return $this->belongsTo(Stream::class);
+    }
+
+    public function libraryBook(): BelongsTo
+    {
+        return $this->belongsTo(config('brainkeep-models.library_book_model', 'App\\Models\\LibraryBook'));
+    }
+
+    public function article(): BelongsTo
+    {
+        return $this->belongsTo(Article::class);
     }
 
     public function replies(): HasMany

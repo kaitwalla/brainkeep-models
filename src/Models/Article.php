@@ -125,6 +125,11 @@ class Article extends Model
         return $this->hasMany(ArticleImage::class)->orderBy('position');
     }
 
+    public function highlights(): HasMany
+    {
+        return $this->hasMany(Note::class)->where('type', 'highlight')->orderBy('created_at');
+    }
+
     /**
      * Calculate estimated reading time from word count.
      */
