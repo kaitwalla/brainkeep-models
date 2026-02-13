@@ -54,11 +54,12 @@ class ArticleImage extends Model
     {
         $disk = Storage::disk(config('filesystems.default'));
         $diskDriver = config('filesystems.disks.' . config('filesystems.default') . '.driver');
+        $assetsUrl = config('app.assets_url', config('app.url'));
 
-        // For local filesystem, use direct storage URL
+        // For local filesystem, use assets URL for Cloudflare edge caching
         // (local dev only - prod uses S3 with signed URLs)
         if ($diskDriver === 'local') {
-            return url('/storage/' . $this->filename);
+            return rtrim($assetsUrl, '/') . '/storage/' . $this->filename;
         }
 
         // Public images get direct storage URL
@@ -74,8 +75,8 @@ class ArticleImage extends Model
             );
         } catch (\RuntimeException) {
             // Driver doesn't support temporary URLs
-            // Return API endpoint URL for authenticated access
-            return url("/api/article-images/{$this->id}");
+            // Return API endpoint URL via assets domain for authenticated access
+            return rtrim($assetsUrl, '/') . "/api/article-images/{$this->id}";
         }
     }
 }
