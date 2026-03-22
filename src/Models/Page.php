@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Page extends Model
 {
@@ -42,5 +43,10 @@ class Page extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('brainkeep-models.user_model', 'App\\Models\\User'));
+    }
+
+    public function books(): HasMany
+    {
+        return $this->hasMany(PageBook::class)->orderBy('sort_order');
     }
 }
