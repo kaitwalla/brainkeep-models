@@ -24,6 +24,7 @@ class PageBook extends Model
         'amazon_url',
         'epub_path',
         'sort_order',
+        'download_count',
     ];
 
     protected $attributes = [
@@ -36,6 +37,7 @@ class PageBook extends Model
     {
         return [
             'sort_order' => 'integer',
+            'download_count' => 'integer',
             'created_at' => 'datetime',
             'updated_at' => 'datetime',
         ];
